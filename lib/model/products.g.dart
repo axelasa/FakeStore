@@ -6,8 +6,7 @@ part of 'products.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetAllProducts _$GetAllProductsFromJson(Map<String, dynamic> json) =>
-    GetAllProducts(
+Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
       id: json['id'] as int?,
       title: json['title'] as String?,
       price: (json['price'] as num?)?.toDouble(),
@@ -19,8 +18,7 @@ GetAllProducts _$GetAllProductsFromJson(Map<String, dynamic> json) =>
           : Rating.fromJson(json['rating'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$GetAllProductsToJson(GetAllProducts instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'price': instance.price,
@@ -38,4 +36,16 @@ Rating _$RatingFromJson(Map<String, dynamic> json) => Rating(
 Map<String, dynamic> _$RatingToJson(Rating instance) => <String, dynamic>{
       'rate': instance.rate,
       'count': instance.count,
+    };
+
+AllCategories _$AllCategoriesFromJson(Map<String, dynamic> json) =>
+    AllCategories(
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$AllCategoriesToJson(AllCategories instance) =>
+    <String, dynamic>{
+      'categories': instance.categories,
     };

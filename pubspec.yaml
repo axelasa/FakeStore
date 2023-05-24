@@ -40,6 +40,10 @@ dependencies:
   flutter_bloc: ^8.1.2
   json_annotation: ^4.8.1
   equatable: ^2.0.5
+  get_it: ^7.6.0
+  image_network: ^2.5.2
+  injectable: ^2.1.1
+  injectable_generator: ^2.1.5
 
 dev_dependencies:
   flutter_test:

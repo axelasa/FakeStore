@@ -1,8 +1,8 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fake_store/model/products.dart';
+import 'package:flutter/foundation.dart';
 
 import '../network_call/api_call.dart';
 
@@ -16,8 +16,10 @@ class GetAllProductsBloc extends Bloc<GetAllProductsEvent, GetAllProductsState> 
     on<GetAllProductsEvent>((event, emit) async{
       try{
         emit(const GetAllProductsLoading());
-        final model = await getAllProductsRepo.getAllProducts();
-        print(model?.title);
+        final List<Products> model = await getAllProductsRepo.getAllProducts();
+        if (kDebugMode) {
+          print(model);
+        }
         emit(GetAllProductsSuccess(model));
       }catch(e){
         emit(GetAllProductsFail(e.toString()));

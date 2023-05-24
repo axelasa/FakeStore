@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'products.g.dart';
 
 @JsonSerializable()
-class GetAllProducts {
+class Products {
   int? id;
   String? title;
   double? price;
@@ -14,23 +15,20 @@ class GetAllProducts {
   String? image;
   Rating? rating;
 
-  GetAllProducts({
-    this.id,
-    this.title,
-    this.price,
-    this.description,
-    this.category,
-    this.image,
-    this.rating,
+  Products({
+       this.id, 
+       this.title, 
+       this.price, 
+       this.description, 
+       this.category, 
+       this.image, 
+       this.rating,
   });
 
-  factory GetAllProducts.fromJson(Map<String, dynamic> json) =>
-      _$GetAllProductsFromJson(json);
+  factory Products.fromJson( Map<String, dynamic> json) => _$ProductsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GetAllProductsToJson(this);
+  Map<String, dynamic> toJson() => _$ProductsToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
 }
 
 @JsonSerializable()
@@ -40,12 +38,24 @@ class Rating {
 
   Rating({
     this.rate,
-    this.count,
-  });
+    this.count,});
 
-  factory Rating.fromJson(Map<String,dynamic> json) => _$RatingFromJson(json);
+  factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
 
   Map<String, dynamic> toJson() => _$RatingToJson(this);
+
+}
+@JsonSerializable()
+class AllCategories{
+  List<String>? categories;
+
+  AllCategories({
+    this.categories,
+});
+  factory AllCategories.fromJson(Map<String,dynamic>json) => _$AllCategoriesFromJson(json);
+
+  Map<String,dynamic>toJson()=>_$AllCategoriesToJson(this);
+
   @override
   String toString() => jsonEncode(this);
 }

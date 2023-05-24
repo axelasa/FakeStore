@@ -13,7 +13,7 @@ class GetAllProductsInitial extends GetAllProductsState {}
  }
 
  class GetAllProductsSuccess extends GetAllProductsState{
-  final GetAllProducts? data;
+  final List<Products> data;
 
   const GetAllProductsSuccess(this.data) : super();
   @override
