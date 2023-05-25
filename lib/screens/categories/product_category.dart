@@ -1,75 +1,75 @@
-import 'package:fake_store/bloc/get_all_products_bloc.dart';
+import 'package:fake_store/bloc/get_products_in_specific_category_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_network/image_network.dart';
 
 import '../../bloc/get_product_details_bloc.dart';
-import '../categories/category.dart';
 
-class AllProducts extends StatefulWidget {
-  const AllProducts({Key? key}) : super(key: key);
+class ProductCategory extends StatefulWidget {
+  const ProductCategory({Key? key}) : super(key: key);
 
   @override
-  State<AllProducts> createState() => _AllProductsState();
+  State<ProductCategory> createState() => _ProductCategoryState();
 }
 
-class _AllProductsState extends State<AllProducts> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<GetAllProductsBloc>(context).add(GetAllProductsInfo());
-  }
+class _ProductCategoryState extends State<ProductCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          top: true,
-          right: true,
-          left: true,
-          bottom: true,
-          child: Flex(
-            
-            direction: Axis.vertical,
+    return  Scaffold(
+      backgroundColor: Colors.white,
+      body:SafeArea(
+        top: true,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Flexible(
-                flex: 1,
-                  child: GetAllCategories()),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0,bottom: 15),
+                child: Container(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                        Icons.arrow_back_sharp
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
-                flex: 5,
-                  child:Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: BlocConsumer<GetAllProductsBloc, GetAllProductsState>(
-                        listener: (context, state) {
-                          if (state is GetAllProductsSuccess) {
-                            if (kDebugMode) {
-                              print("Data Has Been Retrieved");
-                            }
-                          }
-                        }, builder: (context, state) {
-                      if (state is GetAllProductsLoading) {
+                  child: BlocConsumer<GetProductsInSpecificCategoryBloc,GetProductsInSpecificCategoryState>
+                    ( listener: (context,state){
+                      if(state is GetProDuctsInSpecificCategorySuccess){
+                        if (kDebugMode) {
+                          print("Data Received SuccessFully");
+
+                        }
+                      }
+                  },
+                    builder: (context,state){
+                      if(state is GetProDuctsInSpecificCategoryLoading){
                         return const Center(
                           child: CircularProgressIndicator.adaptive(),
                         );
                       }
-                      if (state is GetAllProductsFail) {
+                      if(state is GetProDuctsInSpecificCategoryFail){
                         return Center(
                           child: Text(
                             state.error,
                             style: const TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w500,fontSize: 15,color: Colors.red
                             ),
                           ),
                         );
                       }
-                      if (state is GetAllProductsSuccess) {
+                      if(state is GetProDuctsInSpecificCategorySuccess){
                         List response = state.data;
                         if (kDebugMode) {
-                          print(response);
+                          print('Here is the Response $response');
                         }
                         return Container(
                           width: double.infinity,
@@ -101,14 +101,15 @@ class _AllProductsState extends State<AllProducts> {
                                     },
                                     child: GridTileBar(
                                       backgroundColor: Colors.black45,
-                                      title: Text('KES ${response[i].price.toString()}',
+                                      title: Text('KES ${response[i]?.price.toString()}',
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold,color: Colors.white
+                                          fontWeight: FontWeight.bold,color: Colors.white
                                         ),
+
                                       ),
                                       subtitle: Text(
-                                          '${response[i].rating?.count} available '
-                                              '⭐️ ${response[i].rating?.rate} \n ${response[i].title}',
+                                          '${response[i]?.rating?.count} available '
+                                              '⭐️ ${response[i]?.rating?.rate} \n ${response[i]?.title}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w600,color: Colors.white
                                         ),
@@ -123,7 +124,7 @@ class _AllProductsState extends State<AllProducts> {
                                         height: 200,
                                         width: 200,
                                         child:ImageNetwork(
-                                          image: response[i].image.toString(),
+                                          image: response[i]!.image.toString(),
                                           fitWeb: BoxFitWeb.cover, height: 300, width: 300,
                                           onTap: () {
                                             if (kDebugMode) {
@@ -143,12 +144,13 @@ class _AllProductsState extends State<AllProducts> {
                         );
                       }
                       return const SizedBox.shrink();
-                    }),
-                  ),
-              ),
+                    },
+                  )
+              )
             ],
           ),
-        )
+        ),
+      ) ,
     );
   }
 }

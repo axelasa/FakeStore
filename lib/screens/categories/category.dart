@@ -1,6 +1,9 @@
 import 'package:fake_store/bloc/get_all_categories_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/get_products_in_specific_category_bloc.dart';
 
 class GetAllCategories extends StatefulWidget {
   const GetAllCategories({Key? key}) : super(key: key);
@@ -32,7 +35,7 @@ class _GetAllCategoriesState extends State<GetAllCategories> {
               listener: (context, state){
                 if(state is GetAllCategoriesSuccess){
                   if (kDebugMode) {
-                    print('Data Has Been Retrieved SuccessFfully');
+                    print('Data Has Been Retrieved Successfully');
                   }
                 }
               },
@@ -57,10 +60,13 @@ class _GetAllCategoriesState extends State<GetAllCategories> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                     direction: Axis.horizontal,
                     children: response!.categories!.map((e) =>  Flexible(
-                      flex: 1,
-                      child: TextButton(
+                      flex: 3,
+                      child: ElevatedButton(
                         child:Text(e),
-                        onPressed: () {  },
+                        onPressed: () {
+                          BlocProvider.of<GetProductsInSpecificCategoryBloc>(context).add(GetProDuctsInSpecificCategoryInfo(e));
+                          Navigator.pushNamed(context, '/product_category');
+                        },
                       ),
                     )).toList()
                   );

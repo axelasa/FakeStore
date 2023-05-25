@@ -81,3 +81,29 @@ Future <List<Products>> getAllProducts() async {
   }
   return null;
 }
+
+Future<List<Products>>getProductsInSpecificCategory(String category) async{
+  
+  try{
+    var url = Uri.parse("https://fakestoreapi.com/products/category/$category");
+    http.Response response = await http.get(url);
+
+    if(response.statusCode == 200){
+      var responseBody = response.body;
+      List<dynamic> data = jsonDecode(responseBody);
+      List<Products> list = data.map((e) => Products.fromJson(e as Map<String,dynamic>)).toList();
+      if (kDebugMode) {
+        print("HERE IS THE LIST ${list.length}");
+      }
+      return list;
+    }else{
+      throw Exception(response.reasonPhrase);
+    }
+
+  }catch(e){
+    if (kDebugMode) {
+      print(e.toString());
+    }
+  }
+  return [];
+}

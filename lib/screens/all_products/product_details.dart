@@ -14,9 +14,9 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
     //api endpoint
 
     //method receiving data from previous page
@@ -25,7 +25,7 @@ class _ProductDetailsState extends State<ProductDetails> {
      //   BlocProvider.of<GetProductDetailsBloc>(context).add(GetProductDetailsInfo(product));
      // });
 
-  }
+  // }
 
   @override
   Widget build(BuildContext context) {
