@@ -25,54 +25,72 @@ class _GetAllCategoriesState extends State<GetAllCategories> {
     return  Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        top: true ,
-        right: true ,
-        left: true ,
+        top: true,
         bottom: true ,
 
         child: Center(
           child: BlocConsumer<GetAllCategoriesBloc,GetAllCategoriesState>(
-              listener: (context, state){
-                if(state is GetAllCategoriesSuccess){
-                  if (kDebugMode) {
-                    print('Data Has Been Retrieved Successfully');
-                  }
+            listener: (context, state){
+              if(state is GetAllCategoriesSuccess){
+                if (kDebugMode) {
+                  print('Data Has Been Retrieved Successfully');
                 }
-              },
+              }
+            },
             builder: (context,state){
-                if(state is GetAllCategoriesLoading){
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-                }
-                if(state is GetAllCategoriesFail){
-                  return Center(
+              if(state is GetAllCategoriesLoading){
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }
+              if(state is GetAllCategoriesFail){
+                return Center(
                     child:Text(
-                      state.error.toString()
+                        state.error.toString()
                     )
-                  );
+                );
+              }
+              if(state is GetAllCategoriesSuccess){
+                var response = state.data;
+                if(!(response?.categories?.contains("All")?? true)){
+                  response?.categories?.insert(0, "All");
                 }
-                if(state is GetAllCategoriesSuccess){
-                  var response = state.data;
+                if (kDebugMode) {
                   print(response?.categories?.length);
-                  return Flex(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    direction: Axis.horizontal,
-                    children: response!.categories!.map((e) =>  Flexible(
-                      flex: 3,
-                      child: ElevatedButton(
-                        child:Text(e),
-                        onPressed: () {
-                          BlocProvider.of<GetProductsInSpecificCategoryBloc>(context).add(GetProDuctsInSpecificCategoryInfo(e));
-                          Navigator.pushNamed(context, '/product_category');
-                        },
-                      ),
-                    )).toList()
-                  );
                 }
-                return const SizedBox.shrink();
-              },
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     // direction: Axis.horizontal,
+                      children: response!.categories!.map((e) =>  Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlinedButton(
+                          style: TextButton.styleFrom(
+                            //backgroundColor: Colors.black12,
+                            shape: const StadiumBorder(),
+                            elevation: 1
+                          ),
+                          child:Text(e,
+                            style: const TextStyle(
+                                color: Colors.black87,fontSize: 15
+                            ),
+                          ),
+                          onPressed: () {
+                            if(e == "All"){
+                              return;
+                            }
+                            BlocProvider.of<GetProductsInSpecificCategoryBloc>(context).add(GetProDuctsInSpecificCategoryInfo(e));
+                            Navigator.pushNamed(context, '/product_category');
+                          },
+                        ),
+                      )).toList()
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),

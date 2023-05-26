@@ -39,7 +39,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
               Padding(
-               padding: const EdgeInsets.only(top: 10.0),
+               padding: const EdgeInsets.only(top: 5.0),
                child: Container(
                  alignment: Alignment.topLeft,
                  child: IconButton(
@@ -53,7 +53,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                ),
              ),
             Padding(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
               child: BlocConsumer<GetProductDetailsBloc,GetProductDetailsState>(
                 listener: (context,state){
                   if(state is GetProductDetailsSuccess){
@@ -86,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         children: [
                           Image(
                               image: NetworkImage('${state.data?.image}'),
-                             height: 285,
+                             height: 260,
                           ),
                           Card(
                             child: Column(
@@ -113,7 +113,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   }
                   return const SizedBox.shrink();
                 },
-              )
+              ),
             ),
           ],
         ),

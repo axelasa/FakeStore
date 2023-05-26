@@ -27,7 +27,7 @@ class _ProductCategoryState extends State<ProductCategory> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0,bottom: 15),
+                padding: const EdgeInsets.only(top: 10.0,bottom:15),
                 child: Container(
                   alignment: Alignment.topLeft,
                   child: IconButton(
@@ -120,12 +120,14 @@ class _ProductCategoryState extends State<ProductCategory> {
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: SizedBox(
-                                        height: 200,
-                                        width: 200,
-                                        child:ImageNetwork(
-                                          image: response[i]!.image.toString(),
-                                          fitWeb: BoxFitWeb.cover, height: 300, width: 300,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top:12.0,bottom: 12.0),
+                                        child: ImageNetwork(
+                                          image: response[i].image.toString(),
+                                          fitWeb: BoxFitWeb.cover,
+                                          height: 300,
+                                          width: 150,
+                                          fitAndroidIos: BoxFit.fill,
                                           onTap: () {
                                             if (kDebugMode) {
                                               print('I image have been Tapped');

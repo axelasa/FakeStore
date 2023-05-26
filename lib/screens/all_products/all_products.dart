@@ -1,9 +1,11 @@
 import 'package:fake_store/bloc/get_all_products_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_network/image_network.dart';
 
+import '../../bloc/get_limited_results_bloc.dart';
 import '../../bloc/get_product_details_bloc.dart';
 import '../categories/category.dart';
 
@@ -21,27 +23,64 @@ class _AllProductsState extends State<AllProducts> {
     BlocProvider.of<GetAllProductsBloc>(context).add(GetAllProductsInfo());
   }
 
+  List<dynamic> limit = [0,1,5,15,20,];
+  dynamic selectedItem = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
-          right: true,
-          left: true,
           bottom: true,
           child: Flex(
-            
             direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  Expanded(
+                      child:Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DropdownButton(
+                            value: selectedItem,
+                            items: limit.map((e) => DropdownMenuItem(
+                              value: e,
+                                child: Text(
+                                  '$e', style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                ),
+                                ),
+                            ),
+                            ).toList(),
+                            onChanged: (e) => setState(() {
+                              selectedItem = e;
+                              print("$selectedItem Has been tapped");
+                              if(selectedItem == 0){
+                                return;
+                              }else{
+                                BlocProvider.of<GetLimitedResultsBloc>(context).add(GetLimitedResultsInfo(selectedItem));
+                                Navigator.pushNamed(context,"/limit_result",arguments:selectedItem );
+                              }
+                            }
+                            ),
+                          icon: const Icon(CupertinoIcons.arrow_down_right_arrow_up_left),
+                          onTap: (){
+                              print("$selectedItem Has been tapped");
+                          },
+                        ),
+                      ),
+                  ),
+                ],
+              ),
               const Flexible(
                 flex: 1,
                   child: GetAllCategories()),
               Expanded(
-                flex: 5,
+                flex: 16,
                   child:Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: BlocConsumer<GetAllProductsBloc, GetAllProductsState>(
                         listener: (context, state) {
                           if (state is GetAllProductsSuccess) {
@@ -107,8 +146,8 @@ class _AllProductsState extends State<AllProducts> {
                                         ),
                                       ),
                                       subtitle: Text(
-                                          '${response[i].rating?.count} available '
-                                              '⭐️ ${response[i].rating?.rate} \n ${response[i].title}',
+                                          '${response[i].rating?.count} available  '
+                                              '⭐️${response[i].rating?.rate} \n ${response[i].title}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w600,color: Colors.white
                                         ),
@@ -120,18 +159,24 @@ class _AllProductsState extends State<AllProducts> {
                                   children: [
                                     Expanded(
                                       child: SizedBox(
-                                        height: 200,
-                                        width: 200,
-                                        child:ImageNetwork(
-                                          image: response[i].image.toString(),
-                                          fitWeb: BoxFitWeb.cover, height: 300, width: 300,
-                                          onTap: () {
-                                            if (kDebugMode) {
-                                              print('I image have been Tapped');
-                                            }
-                                            BlocProvider.of<GetProductDetailsBloc>(context).add(GetProductDetailsInfo(response[i].id));
-                                            Navigator.pushNamed(context,"/product_details",);
-                                          },
+                                        height: 300,
+                                        width: 120,
+                                        child:Padding(
+                                          padding: const EdgeInsets.only(top:12.0,bottom: 12.0),
+                                          child: ImageNetwork(
+                                            image: response[i].image.toString(),
+                                            fitWeb: BoxFitWeb.cover,
+                                            height: 300,
+                                            width: 250,
+                                            fitAndroidIos: BoxFit.fill,
+                                            onTap: () {
+                                              if (kDebugMode) {
+                                                print('I image have been Tapped');
+                                              }
+                                              BlocProvider.of<GetProductDetailsBloc>(context).add(GetProductDetailsInfo(response[i].id));
+                                              Navigator.pushNamed(context,"/product_details",);
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ),
