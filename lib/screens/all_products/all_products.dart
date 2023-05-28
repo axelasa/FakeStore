@@ -8,6 +8,7 @@ import 'package:image_network/image_network.dart';
 import '../../bloc/get_limited_results_bloc.dart';
 import '../../bloc/get_product_details_bloc.dart';
 import '../categories/category.dart';
+import '../profile/profile.dart';
 
 class AllProducts extends StatefulWidget {
   const AllProducts({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class AllProducts extends StatefulWidget {
 }
 
 class _AllProductsState extends State<AllProducts> {
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +30,8 @@ class _AllProductsState extends State<AllProducts> {
 
   @override
   Widget build(BuildContext context) {
+    var smallScreen = MediaQuery.of(context).size.aspectRatio <= 16.9;
+    var bigScreen = MediaQuery.of(context).size.height>= 17.0;
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -37,45 +41,61 @@ class _AllProductsState extends State<AllProducts> {
             direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                      child:Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DropdownButton(
-                            value: selectedItem,
-                            items: limit.map((e) => DropdownMenuItem(
-                              value: e,
-                                child: Text(
-                                  '$e', style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15,
+              Expanded(
+                flex:  smallScreen ? 2 : 3 ,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(
+                        child:
+                        Profile()
+                    ),
+                    Expanded(
+                        child:Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: DropdownButton(
+                                value: selectedItem,
+                                items: limit.map((e) => DropdownMenuItem(
+                                  value: e,
+                                    child: Text(
+                                      '$e', style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                    ),
                                 ),
+                                ).toList(),
+                                onChanged: (e) => setState(() {
+                                  selectedItem = e;
+                                  if (kDebugMode) {
+                                    print("$selectedItem Has been tapped");
+                                  }
+                                  if(selectedItem == 0){
+                                    return;
+                                  }else{
+                                    BlocProvider.of<GetLimitedResultsBloc>(context).add(GetLimitedResultsInfo(selectedItem));
+                                    Navigator.pushNamed(context,"/limit_result",arguments:selectedItem );
+                                  }
+                                }
                                 ),
+                              icon: const Icon(CupertinoIcons.arrow_down_right_arrow_up_left),
+                              onTap: (){
+                                  if (kDebugMode) {
+                                    print("$selectedItem Has been tapped");
+                                  }
+                              },
                             ),
-                            ).toList(),
-                            onChanged: (e) => setState(() {
-                              selectedItem = e;
-                              print("$selectedItem Has been tapped");
-                              if(selectedItem == 0){
-                                return;
-                              }else{
-                                BlocProvider.of<GetLimitedResultsBloc>(context).add(GetLimitedResultsInfo(selectedItem));
-                                Navigator.pushNamed(context,"/limit_result",arguments:selectedItem );
-                              }
-                            }
-                            ),
-                          icon: const Icon(CupertinoIcons.arrow_down_right_arrow_up_left),
-                          onTap: (){
-                              print("$selectedItem Has been tapped");
-                          },
+                          ),
                         ),
-                      ),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-              const Flexible(
-                flex: 1,
+               const Flexible(
+                flex:  2,
                   child: GetAllCategories()),
               Expanded(
                 flex: 16,
@@ -113,7 +133,9 @@ class _AllProductsState extends State<AllProducts> {
                         return Container(
                           width: double.infinity,
                           decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+                          BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                          ),
                           child: GridView.builder(
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,

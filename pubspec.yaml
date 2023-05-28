@@ -44,6 +44,8 @@ dependencies:
   image_network: ^2.5.2
   injectable: ^2.1.1
   injectable_generator: ^2.1.5
+  google_nav_bar: ^5.0.6
+  local_auth: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +72,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

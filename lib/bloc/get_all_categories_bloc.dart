@@ -27,8 +27,8 @@ class GetAllCategoriesBloc extends Bloc<GetAllCategoriesEvent, GetAllCategoriesS
       }catch(e){
         if (kDebugMode) {
           print(e.toString());
-          emit(GetAllCategoriesFail(e.toString()));
         }
+        emit(GetAllCategoriesFail(e.toString()));
       }
     }
 }

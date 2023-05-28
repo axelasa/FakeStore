@@ -68,9 +68,9 @@ class _GetAllCategoriesState extends State<GetAllCategories> {
                         padding: const EdgeInsets.all(8.0),
                         child: OutlinedButton(
                           style: TextButton.styleFrom(
-                            //backgroundColor: Colors.black12,
+                            backgroundColor: const Color(0xffFFFDD0),
                             shape: const StadiumBorder(),
-                            elevation: 1
+                            elevation: 1,
                           ),
                           child:Text(e,
                             style: const TextStyle(
@@ -83,6 +83,7 @@ class _GetAllCategoriesState extends State<GetAllCategories> {
                             }
                             BlocProvider.of<GetProductsInSpecificCategoryBloc>(context).add(GetProDuctsInSpecificCategoryInfo(e));
                             Navigator.pushNamed(context, '/product_category');
+
                           },
                         ),
                       )).toList()

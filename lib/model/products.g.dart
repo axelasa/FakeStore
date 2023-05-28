@@ -49,3 +49,30 @@ Map<String, dynamic> _$AllCategoriesToJson(AllCategories instance) =>
     <String, dynamic>{
       'categories': instance.categories,
     };
+
+GetCart _$GetCartFromJson(Map<String, dynamic> json) => GetCart(
+      id: json['id'] as int?,
+      userId: json['userId'] as int?,
+      date: json['date'] as String?,
+      products: (json['products'] as List<dynamic>?)
+          ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      v: json['v'] as int?,
+    );
+
+Map<String, dynamic> _$GetCartToJson(GetCart instance) => <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
+      'date': instance.date,
+      'products': instance.products,
+      'v': instance.v,
+    };
+
+Product _$ProductFromJson(Map<String, dynamic> json) => Product(
+      product:
+          (json['product'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+      'product': instance.product,
+    };

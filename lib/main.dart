@@ -1,12 +1,16 @@
+import 'package:fake_store/bloc/get_all_cart_bloc.dart';
 import 'package:fake_store/bloc/get_product_details_bloc.dart';
 import 'package:fake_store/bloc/get_products_in_specific_category_bloc.dart';
 import 'package:fake_store/common/simple_bloc_observer.dart';
 import 'package:fake_store/di/injection.dart';
-import 'package:fake_store/screens/all_products/all_products.dart';
+import 'package:fake_store/home.dart';
 import 'package:fake_store/screens/categories/category.dart';
 import 'package:fake_store/screens/all_products/product_details.dart';
 import 'package:fake_store/screens/categories/product_category.dart';
+import 'package:fake_store/screens/profile/account.dart';
+import 'package:fake_store/screens/profile/profile.dart';
 import 'package:fake_store/screens/sort/limit_result.dart';
+import 'package:fake_store/security/biometrics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,14 +49,22 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => getIt.get<GetLimitedResultsBloc>()
         ),
+        BlocProvider(
+            create: (context) => getIt.get<GetAllCartBloc>()
+        ),
       ],
       child: MaterialApp(
-       home: const AllProducts(),
+       home: const HomeScreen(),
+        //initialRoute: '/',
         routes: {
+         '/home':(context)=> const HomeScreen(),
           '/product_details':(context) => const ProductDetails(),
           '/category': (context) => const GetAllCategories(),
           '/product_category' : (context) => const ProductCategory(),
-          '/limit_result' :(context) => const LimitResults()
+          '/limit_result' :(context) => const LimitResults(),
+          '/profile':(context)=>const Profile(),
+          '/account':(context)=>const Account(),
+          '/biometrics':(context) => const Biometrics(),
         },
       ),
     );

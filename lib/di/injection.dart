@@ -1,3 +1,4 @@
+import 'package:fake_store/bloc/get_all_cart_bloc.dart';
 import 'package:fake_store/bloc/get_all_categories_bloc.dart';
 import 'package:fake_store/bloc/get_all_products_bloc.dart';
 import 'package:fake_store/bloc/get_limited_results_bloc.dart';
@@ -16,4 +17,5 @@ void setUp() {
   getIt.registerLazySingleton(() => GetAllCategoriesBloc());
   getIt.registerLazySingleton(() => GetProductsInSpecificCategoryBloc());
   getIt.registerLazySingleton(() => GetLimitedResultsBloc());
+  getIt.registerLazySingleton(() => GetAllCartBloc());
 }

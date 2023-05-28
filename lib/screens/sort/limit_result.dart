@@ -50,7 +50,7 @@ class _LimitResultsState extends State<LimitResults> {
               flex: 1,
               child: GetAllCategories()),
           Expanded(
-            flex:15,
+            flex:12,
             child:Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: BlocConsumer<GetLimitedResultsBloc, GetLimitedResultsState>(

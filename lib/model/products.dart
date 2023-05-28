@@ -59,3 +59,41 @@ class AllCategories{
   @override
   String toString() => jsonEncode(this);
 }
+
+@JsonSerializable()
+class GetCart {
+  int? id;
+  int? userId;
+  String? date;
+  List<Product>? products;
+  int? v;
+  GetCart({
+    this.id,
+    this.userId,
+    this.date,
+    this.products,
+    this.v,});
+
+  factory GetCart.fromJson(Map<String,dynamic>json) => _$GetCartFromJson(json);
+
+
+  Map<String, dynamic> toJson() => _$GetCartToJson(this);
+
+  @override
+  String toString() => jsonEncode(this);
+
+}
+@JsonSerializable()
+class Product{
+  List<String>? product;
+
+  Product({
+    this.product,
+});
+  factory Product.fromJson(Map<String,dynamic>json) => _$ProductFromJson(json);
+
+  Map<String,dynamic> toJson()=> _$ProductToJson(this);
+
+  @override
+  String toString() => jsonEncode(this);
+}
