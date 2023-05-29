@@ -467,6 +467,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mplatform:
+    dependency: "direct main"
+    description:
+      name: mplatform
+      sha256: edee0050eaeb71faffaab71f5952c6d7250f402868d674682f61fabd2a88d857
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:

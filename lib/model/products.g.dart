@@ -57,7 +57,6 @@ GetCart _$GetCartFromJson(Map<String, dynamic> json) => GetCart(
       products: (json['products'] as List<dynamic>?)
           ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
-      v: json['v'] as int?,
     );
 
 Map<String, dynamic> _$GetCartToJson(GetCart instance) => <String, dynamic>{
@@ -65,14 +64,14 @@ Map<String, dynamic> _$GetCartToJson(GetCart instance) => <String, dynamic>{
       'userId': instance.userId,
       'date': instance.date,
       'products': instance.products,
-      'v': instance.v,
     };
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
-      product:
-          (json['product'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      productId: json['productId'] as int?,
+      quantity: json['quantity'] as int?,
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
-      'product': instance.product,
+      'productId': instance.productId,
+      'quantity': instance.quantity,
     };

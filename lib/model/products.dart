@@ -66,13 +66,12 @@ class GetCart {
   int? userId;
   String? date;
   List<Product>? products;
-  int? v;
+
   GetCart({
     this.id,
     this.userId,
     this.date,
-    this.products,
-    this.v,});
+    this.products,});
 
   factory GetCart.fromJson(Map<String,dynamic>json) => _$GetCartFromJson(json);
 
@@ -85,10 +84,12 @@ class GetCart {
 }
 @JsonSerializable()
 class Product{
-  List<String>? product;
+  int? productId;
+  int? quantity;
 
   Product({
-    this.product,
+    this.productId,
+    this.quantity
 });
   factory Product.fromJson(Map<String,dynamic>json) => _$ProductFromJson(json);
 

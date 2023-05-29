@@ -134,18 +134,21 @@ class _LimitResultsState extends State<LimitResults> {
                                   width: 120,
                                   child:Padding(
                                     padding: const EdgeInsets.only(top:12.0,bottom: 12.0),
-                                    child: ImageNetwork(
-                                      image: response[i].image.toString(),
-                                      fitWeb: BoxFitWeb.cover,
-                                      height: 300,
-                                      width: 250,
-                                      fitAndroidIos: BoxFit.fill,
+                                    child: ProductImage(
+                                      url:  response[i].image.toString(),
                                       onTap: () {
                                         if (kDebugMode) {
                                           print('I image have been Tapped');
                                         }
-                                        BlocProvider.of<GetProductDetailsBloc>(context).add(GetProductDetailsInfo(response[i].id));
-                                        Navigator.pushNamed(context,"/product_details",);
+                                        BlocProvider.of<
+                                            GetProductDetailsBloc>(
+                                            context)
+                                            .add(GetProductDetailsInfo(
+                                            response[i].id));
+                                        Navigator.pushNamed(
+                                          context,
+                                          "/product_details",
+                                        );
                                       },
                                     ),
                                   ),
@@ -165,6 +168,56 @@ class _LimitResultsState extends State<LimitResults> {
         ],
       ),
       ),
+    );
+  }
+}
+
+class ProductImage extends StatelessWidget {
+
+  ProductImage({
+    this.url,
+    this.height = 300,
+    this.width = 250,
+    this.onTap,
+    super.key,
+  });
+
+  final String? url;
+  final double? height;
+  final double? width;
+  final BoxFitWeb webBoxFit = BoxFitWeb.scaleDown;
+  BoxFit boxFit = BoxFit.contain;
+  final BoxFit android = BoxFit.contain;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Flex(
+      direction: Axis.horizontal,
+      children: [
+        Expanded(
+          flex: 1,
+          child: url == null
+              ? GestureDetector(
+            onTap: onTap,
+            child: Image.asset(
+              "assets/no_image.jpeg",
+              fit: boxFit,
+              height: height,
+              width: width,
+            ),
+          )
+              : ImageNetwork(
+            image: url!,
+            fitWeb: webBoxFit,
+            height: height!,
+            width: width!,
+            fitAndroidIos: android,
+            onTap: onTap,
+          ),
+        ),
+      ],
     );
   }
 }

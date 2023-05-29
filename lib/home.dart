@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 2:
         BlocProvider.of<GetAllCartBloc>(context).add(GetAllCartInfo());
-        currentWidgetPage = const GetCart();
+        currentWidgetPage = const GetCartPage();
         break;
     }
     return  Scaffold(

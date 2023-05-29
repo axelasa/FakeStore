@@ -1,16 +1,17 @@
 import 'package:fake_store/bloc/get_all_cart_bloc.dart';
+import 'package:fake_store/model/products.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GetCart extends StatefulWidget {
-  const GetCart({Key? key}) : super(key: key);
+class GetCartPage extends StatefulWidget {
+  const GetCartPage({Key? key}) : super(key: key);
 
   @override
-  State<GetCart> createState() => _GetCartState();
+  State<GetCartPage> createState() => _GetCartPageState();
 }
 
-class _GetCartState extends State<GetCart> {
+class _GetCartPageState extends State<GetCartPage> {
 @override
   void initState() {
     super.initState();
@@ -46,31 +47,21 @@ class _GetCartState extends State<GetCart> {
                 ),
               );
             }
-            if(state is GetAllCartSuccess){
-              var response = state.data;
+            if(state is GetAllCartSuccess) {
+              List<GetCart?> response = state.data;
               if (kDebugMode) {
                 print(response.length);
               }
               return Column(
                 children: [
-                  Expanded(
+                  SizedBox(
                     child: ListView.builder(
+                      shrinkWrap: true,
                       itemCount: response.length,
                         itemBuilder: (context, i){
-                        SizedBox(
-                          width: double.infinity,
-                          height: 500,
-                          child:Text(
-                            'HERE IS THE RESPONSE${response[i]?.userId}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        );
-                        if (kDebugMode) {
-                          print('HERE IS THE RESPONSE ${response[i]?.userId}');
-                        }
-                        return null;
+                        GetCart? cart = response[i];
+                        List<Product>? products = cart?.products;
+                        return ProductsListPage(products: products,);
                         },
                     ),
                   ),
@@ -82,5 +73,38 @@ class _GetCartState extends State<GetCart> {
         ),
       ),
     );
+  }
+}
+
+
+class ProductsListPage extends StatelessWidget {
+  const ProductsListPage({this.products, Key? key}) : super(key: key);
+
+  final List<Product>? products;
+
+  @override
+  Widget build(BuildContext context) {
+    if(products == null) return const Text("No products in cart");
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: products!.length,
+      itemBuilder: (context, i){
+        Product product = products![i];
+        return ProductItem(product: product);
+      },
+    );
+  }
+}
+
+
+class ProductItem extends StatelessWidget {
+  const ProductItem({required this.product, Key? key}) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(color: Colors.grey, child: Text(product.productId.toString()));
   }
 }

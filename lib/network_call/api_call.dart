@@ -139,7 +139,7 @@ Future <List<GetCart>> getAllCartRepo() async{
     var url = Uri.parse('https://fakestoreapi.com/carts');
     http.Response response = await http.get(url);
     if(response.statusCode == 200){
-      var responseBody = response.body;
+      String responseBody = response.body;
       List<dynamic> data = jsonDecode(responseBody);
       List<GetCart> list = data.map((e) => GetCart.fromJson(e as Map<String,dynamic>)).toList();
       return list;
@@ -157,30 +157,3 @@ Future <List<GetCart>> getAllCartRepo() async{
   return [];
 }
 
-Future<Object> getProduct() async{
-  try{
-    var url = Uri.parse('https://fakestoreapi.com/carts');
-    http.Response response = await http.get(url);
-    if(response.statusCode == 200){
-      var responseBody = response.body;
-      List<dynamic> data = jsonDecode(responseBody);
-
-      List<String> res = [];
-
-      for(var resources in data){
-        res.add(resources.toString());
-      }
-      return Product(product: res);
-    }else{
-      if (kDebugMode) {
-        print(response.reasonPhrase);
-      }
-    }
-  }catch(e){
-    if (kDebugMode) {
-      print(e.toString());
-    }
-  }
-  
-  return[];
-}
