@@ -11,6 +11,7 @@ import 'package:fake_store/screens/profile/account.dart';
 import 'package:fake_store/screens/profile/profile.dart';
 import 'package:fake_store/screens/sort/limit_result.dart';
 import 'package:fake_store/security/biometrics.dart';
+import 'package:fake_store/slide_image/slide_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
           '/profile':(context)=>const Profile(),
           '/account':(context)=>const Account(),
           '/biometrics':(context) => const Biometrics(),
+          '/slide_image':(context)=> const SlideImage(),
         },
       ),
     );

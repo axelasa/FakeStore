@@ -1,4 +1,5 @@
 import 'package:fake_store/bloc/get_all_products_bloc.dart';
+import 'package:fake_store/slide_image/slide_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -104,6 +105,8 @@ class _AllProductsState extends State<AllProducts> {
                 ),
               ),
               const Flexible(flex: 2, child: GetAllCategories()),
+              const SizedBox(height: 3,),
+              const Flexible(flex:4, child: SlideImage()),
               Expanded(
                 flex: 16,
                 child: Padding(
